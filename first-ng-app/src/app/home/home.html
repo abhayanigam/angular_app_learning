@@ -1,0 +1,198 @@
+<app-greeting [message]="'Abhaya'"></app-greeting>
+<app-counter />
+
+<label for="username">Your Name</label>
+<input id="username" type="text" (keyup)="keyUpHandler($event)" />
+
+<app-getter-setter-functions />
+
+<h1>If Else | Control Flow</h1>
+
+<!-- @if(x<10){
+  <div style="width: 200px; height: 200px; background-color: green;">
+
+  </div>
+} -->
+
+<button (click)="toggle()">Toggle</button>
+<button (click)="show()">Show</button>
+<button (click)="hide()">Hide</button>
+
+@if (display) {
+  <div style="width: 200px; height: 200px; background-color: green"></div>
+}
+
+<hr />
+
+<button (click)="toggleDivTow()">{{ toggleDiv ? 'Hide Div' : 'Show Div' }}</button>
+@if (toggleDiv) {
+  <div style="width: 200px; height: 200px; background-color: red"></div>
+} @else {
+  <div style="width: 200px; height: 200px; background-color: gold"></div>
+}
+
+<hr />
+
+<h1>Else If | Control Flow</h1>
+
+<button (click)="changeColor(1)">Red Color</button>
+<button (click)="changeColor(2)">Blue Color</button>
+<button (click)="changeColor(3)">Green Color</button>
+<button (click)="changeColor(4)">Other Color</button>
+<input type="number" (change)="handleInput($event)" placeholder="Enter a number between 1 and 4" />
+
+@if (color == 1) {
+  <div style="width: 200px; height: 200px; background-color: red"></div>
+} @else if (color == 2) {
+  <div style="width: 200px; height: 200px; background-color: blue"></div>
+} @else if (color == 3) {
+  <div style="width: 200px; height: 200px; background-color: green"></div>
+} @else {
+  <div style="width: 200px; height: 200px; background-color: gold"></div>
+}
+
+<hr />
+
+<h1>Switch Case | Control Flow</h1>
+
+@switch (color) {
+  @case (1) {
+    <div style="width: 200px; height: 200px; background-color: red"></div>
+  }
+  @case (2) {
+    <div style="width: 200px; height: 200px; background-color: blue"></div>
+  }
+  @case (3) {
+    <div style="width: 200px; height: 200px; background-color: green"></div>
+  }
+  @default {
+    <div style="width: 200px; height: 200px; background-color: gold"></div>
+  }
+}
+
+<hr />
+<h1>For Loop</h1>
+
+@for (user of userName; track $index) {
+  <p>{{ user }}</p>
+}
+
+@for (student of students; track student.email) {
+  <div style="border: 1px solid black; margin: 10px; padding: 10px">
+    <p>Student {{ $index + 1 }}</p>
+    <p>Name: {{ student.name }}</p>
+    <p>Age: {{ student.age }}</p>
+    <p>Email: {{ student.email }}</p>
+  </div>
+}
+
+<hr />
+
+<h1>Computed Signal</h1>
+<h1>{{ name() }}</h1>
+<!-- <button (click)="name.set('John')">Update Name</button> -->
+
+<h2>Counter: {{ count() }}</h2>
+<button (click)="toggleValue()">Update Value</button>
+@if (displayHeading) {
+  <h1 style="background-color: gold">Page Heading</h1>
+}
+
+<hr />
+<!-- Tow Way Binding -->
+
+<!-- Method 1: -->
+<!-- Note: [()] : This is known as banana in a box -->
+<input type="text" [(ngModel)]="email" placeholder="Enter the name" />
+<h1>{{ email }}</h1>
+
+<!-- Method 2: -->
+<input type="text" placeholder="Enter Name" (input)="changeEmail($event)" />
+<h1>{{ email }}</h1>
+
+<hr />
+
+<!-- Directives -->
+<h1>Directives</h1>
+
+<h2>*ngFor Directives in Angular</h2>
+
+<ul>
+  <li *ngFor="let student of studentsList">{{ student }}</li>
+</ul>
+
+<ul>
+  <li *ngFor="let student of studentsDetails; index as i">
+    {{ i + 1 }}. {{ student.name }}, {{ student.age }}, {{ student.email }}
+  </li>
+</ul>
+
+<h1>Passing Data between Pages or Components in Angular :</h1>
+<!-- Method 1: -->
+<a [routerLink]="['profile', { name: 'John' }]"> Go to the Profile Page </a>
+
+<!-- Method 2: -->
+<button (click)="goToProfile()">Go to Profile Page</button>
+
+<hr />
+
+<h1>Dynamic Routing in Angular :</h1>
+<ul>
+  @for (student of studentsDetails; track student.id) {
+    <li>
+      <a routerLink="user/{{ student.id }}/{{ student.name }}">
+        {{ student.name }}
+      </a>
+    </li>
+  }
+</ul>
+
+<!-- Pipe Example -->
+<h2>{{ pipeTitle | uppercase }}</h2>
+<h2>{{ pipeTitle | lowercase }}</h2>
+<h2>{{ pipeTitle | titlecase }}</h2>
+
+<h1>Custom Pipes in Angular:</h1>
+<!-- Custom Pipe Example -->
+<!-- :12 shows (Passing the argument in the pipe function) -->
+<h2>{{ amount | currencyConvertor: 12 }}</h2>
+
+<hr />
+<h1>Life Cycle Hooks in Angular</h1>
+<button (click)="incrementPersonCounter()">Increment {{ personCounter }}</button>
+<button (click)="decrementPersonCounter()">Decrement {{ personCounter }}</button>
+
+<div *ngIf="personCounter != 5">
+  <!-- In this case the destroy function is called -->
+  <app-person [personCounter]="personCounter" #person></app-person>
+</div>
+<hr />
+
+<h1>Services in Angular</h1>
+<button (click)="getProductData()">Get Product Data</button>
+<ul>
+  @for (product of productData; track product.id) {
+    <li>{{ product.name }} - {{ product.price }}</li>
+  }
+</ul>
+
+<h1>Api Call Through Serivces in Angular</h1>
+<!-- 
+  track tells Angular:
+  “How should I uniquely identify each item in this list?”
+  It helps Angular optimize DOM updates when the list changes.
+  
+  This means: “Track each product using its id.”
+-->
+<ul>
+  @for (product of ProductList; track ProductList.id) {
+    <li>
+      {{ product.title }} - {{ product.price }} - {{ product.category }} - {{ product.rating }}
+    </li>
+    <img src="{{ product.thumbnail }}" alt="" />
+  }
+</ul>
+
+<h1>Route Lazy Loading Example :</h1>
+<a routerLink="/admin">Go to the admin Page</a>
+<router-outlet></router-outlet>

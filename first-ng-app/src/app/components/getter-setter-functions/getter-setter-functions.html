@@ -1,0 +1,13 @@
+<h1>Getter And Setter functions</h1>
+<h1>User Name us : {{ displayName }}</h1>
+<input type="text" value="{{ name }}" (input)="getName($event)" placeholder="Enter the Name" />
+<br />
+<br />
+<button (click)="showName()">Get Name</button>
+<button (click)="setName()">Set Name</button>
+<hr />
+<h1>Email: {{ email }}</h1>
+<!-- Used the template reference variable emailField -->
+<input type="text" value="{{ email }}" placeholder="Enter the Email" #emailField />
+<button (click)="getEmail(emailField.value)">Get Email</button>
+<button (click)="setEmail()">Set Email</button>
