@@ -1,21 +1,22 @@
 import { Product } from './../services/product';
-import { Component, signal, effect, ViewChild, afterEveryRender } from '@angular/core';
+import { Component, signal, effect, ViewChild, afterEveryRender, computed } from '@angular/core';
 import { Greeting } from '../components/greeting/greeting';
 import { Counter } from '../components/counter/counter';
 import { GetterSetterFunctions } from '../components/getter-setter-functions/getter-setter-functions';
-import { email } from '@angular/forms/signals';
-import { FormsModule } from '@angular/forms';
+
+import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonModule, NgFor } from '@angular/common';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Profile } from '../components/profile/profile';
 import { CurrencyConvertorPipe } from '../pipes/currency-convertor-pipe';
 import { Person } from '../components/person/person';
 import { MainProduct } from '../services/main-product';
-import { Admin } from '../components/admin/admin';
+
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, RouterOutlet, Greeting, Counter, GetterSetterFunctions, FormsModule, NgFor, CommonModule, CurrencyConvertorPipe, Person,],
+  imports: [RouterLink, RouterOutlet, Greeting, Counter, GetterSetterFunctions, FormsModule, NgFor, CommonModule, CurrencyConvertorPipe, Person, ReactiveFormsModule,
+  ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -72,6 +73,12 @@ export class Home {
     { name: "Eve", age: 20, email: "eve@example.com" }
   ];
 
+  // signal(): Defines a mutable source value (writable signal).
+  // computed(): Creates a read-only signal derived automatically from other signals.
+  // effect(): Schedules a side-effect function to execute every time its dependent signals change.
+  doubleCount = computed(() => this.count() * 2);
+
+
   // Effect :
   // Effect is used for signal mostly used inside the constructor and whenever ant signal
   // gets updated you will get an indication inside the effect, you will get a notification
@@ -110,6 +117,13 @@ export class Home {
 
   // What are contextual variables in angular?
   // Variables that are available within a for loop.
+  // $count
+  // $index
+  // $first
+  // $last
+  // $even
+  // $odd
+  // @empty block with the for loop to check if the array is empty or not.
 
   // Tow Way Data Binding Example
   email = '';
@@ -288,4 +302,39 @@ export class Home {
           http://127.0.0.1:8080
           http://192.168.1.15:8080
   */
+
+  // Forms in Angular:
+  // 1. Template Driven Forms : When we have to use simple HTML forms.
+  // 2. Reactive Forms : When we have to use complex forms with more validation and dynamic form controls.
+
+  // Reactive Form Example:
+  // Note : First import the ReactiveFormsModule in the app.module.ts file and then use the FormBuilder service to create 
+  // a form group and form controls in the component where you want to use the reactive form.
+  formName = new FormControl("Abhaya");
+  formPassword = new FormControl();
+
+  // Form Grouping Example:
+  // With form grouping we can group multiple form controls together and then we can use that form group in the template to create a form.
+  // Note : First import the ReactiveFormsModule in the app.module.ts file and then use the FormBuilder service to create 
+  // a form group and form controls in the component where you want to use the reactive form.
+
+  // Adding validation to the form controls:
+  profileForm = new FormGroup({
+    name: new FormControl("", [Validators.required]),
+    email: new FormControl("", [Validators.required, Validators.email, Validators.maxLength(50)]),
+  });
+
+  submit() {
+    console.log(this.profileForm.value.name);
+    console.log(this.profileForm.value.email);
+  }
+
+  get nameValue() {
+    return this.profileForm.get('name');
+  }
+
+  get emailValue() {
+    return this.profileForm.get('email');
+  }
+
 }

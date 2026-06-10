@@ -89,6 +89,7 @@
 <hr />
 
 <h1>Computed Signal</h1>
+<p>Double Computed: {{ doubleCount() }}</p>
 <h1>{{ name() }}</h1>
 <!-- <button (click)="name.set('John')">Update Name</button> -->
 
@@ -99,10 +100,9 @@
 }
 
 <hr />
-<!-- Tow Way Binding -->
-
+<h1>Two Way Binding</h1>
 <!-- Method 1: -->
-<!-- Note: [()] : This is known as banana in a box -->
+<!-- Note: [()] : This is known as banana in a box {use ngModel from formModule component from angular core}-->
 <input type="text" [(ngModel)]="email" placeholder="Enter the name" />
 <h1>{{ email }}</h1>
 
@@ -140,6 +140,7 @@
 <ul>
   @for (student of studentsDetails; track student.id) {
     <li>
+      <!-- < [routerLink]="['user', student.id, student.name]"> -->
       <a routerLink="user/{{ student.id }}/{{ student.name }}">
         {{ student.name }}
       </a>
@@ -195,4 +196,38 @@
 
 <h1>Route Lazy Loading Example :</h1>
 <a routerLink="/admin">Go to the admin Page</a>
+
+<!-- Forms In Angular -->
+<h1>Reactive Forms Example</h1>
+<h3>Basics of Reactive Forms</h3>
+
+<form actions="" method="post">
+  <!-- <input type="text" placeholder="Enter Name" [formControl]="formName" /> -->
+  <input type="text" placeholder="Enter Name" [formControl]="formName" />
+  <br />
+  <br />
+  <input type="text" placeholder="Enter the password" [formControl]="formPassword" />
+  <br />
+  <br />
+  <button type="submit">Login</button>
+  <h3>Name: {{ formName.value }}</h3>
+  <h3>Password: {{ formPassword.value }}</h3>
+</form>
+
+<h3>Form Grouping Example</h3>
+<form [formGroup]="profileForm" (ngSubmit)="submit()">
+  <input type="text" placeholder="Enter Name" formControlName="name" />
+  <span *ngIf="nameValue?.hasError('required')" style="color: red"> Name is required. </span>
+  <span *ngIf="nameValue?.invalid && (nameValue?.dirty || nameValue?.touched)" style="color: red">
+    Please enter the valid name
+  </span>
+  <br />
+  <br />
+  <input type="text" placeholder="Enter Email" formControlName="email" />
+  <span *ngIf="emailValue?.hasError('required')" style="color: red"> Email is required. </span>
+  <br />
+  <br />
+  <button type="submit">Submit</button>
+</form>
+
 <router-outlet></router-outlet>
